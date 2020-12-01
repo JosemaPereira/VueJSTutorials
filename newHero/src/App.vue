@@ -1,14 +1,16 @@
 <template>
-  <h1>Heroes</h1>
-  <ul>
-    <li v-for="hero in heroes" :key="hero.uuid">
-      {{ hero.uuid }}:{{ hero.name }}
-    </li>
-  </ul>
-  <form @submit.prevent="addHero">
-    <input v-model="newHero" placeholder="Add Hero" />
-    <button type="submit">Add Hero</button>
-  </form>
+  <div>
+    <h1>Heroes</h1>
+    <ul>
+      <li v-for="hero in heroes" :key="hero.uuid">
+        {{ hero.uuid }}:{{ hero.name }}
+      </li>
+    </ul>
+    <form @submit.prevent="addHero">
+      <input v-model="newHero" placeholder="Add Hero" />
+      <button type="submit">Add Hero</button>
+    </form>
+  </div>
 </template>
 
 <script>
