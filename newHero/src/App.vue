@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Heroes {{ herosCount }}</h1>
+    <h1 class="text-center">Heroes {{ herosCount }}</h1>
     <h2>{{ fullName }}</h2>
     <ul>
       <li v-for="hero in heroes" :key="hero.uuid">
