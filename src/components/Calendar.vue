@@ -25,11 +25,16 @@
       <p
         class="text-center"
         style="width: 14.28%"
-        v-for="num in daysInMonth(currentMonth, currentYear)"
+        v-for="num in daysInMonth()"
         :key="num"
+        :class="currentDateClass(num)"
       >
         {{ num }}
       </p>
+    </section>
+    <section class="flex justify-between my-4">
+      <button class="p-x2 border rounded" @click="prev">Prev</button>
+      <button class="p-x2 border rounded" @click="next">Next</button>
     </section>
   </div>
 </template>
@@ -38,18 +43,51 @@
 export default {
   data() {
     return {
-      currentMonth: new Date().getMonth() + 1,
-      currentMonthName: new Date().toLocaleString("default", { month: "long" }),
+      currentMonth: new Date().getMonth(),
       currentYear: new Date().getFullYear(),
+      currentDate: new Date().getDate(),
       days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
     };
   },
   methods: {
-    daysInMonth(month, year) {
-      return new Date(year, month, 0).getDate();
+    daysInMonth() {
+      return new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
     },
     startDay() {
-      return new Date(this.currentYear, this.currentMonth - 1, 1).getDay();
+      return new Date(this.currentYear, this.currentMonth, 1).getDay();
+    },
+    next() {
+      if (this.currentMonth === 11) {
+        this.currentMonth = 0;
+        this.currentYear++;
+      } else {
+        this.currentMonth++;
+      }
+    },
+    prev() {
+      if (this.currentMonth === 0) {
+        this.currentMonth = 11;
+        this.currentYear--;
+      } else {
+        this.currentMonth--;
+      }
+    },
+    currentDateClass(num) {
+      const calerndarFullDate = new Date(
+        this.currentYear,
+        this.currentMonth,
+        num
+      ).toDateString();
+      const currentFullDate = new Date().toDateString();
+      return calerndarFullDate === currentFullDate ? "text-yellow-600" : "";
+    },
+  },
+  computed: {
+    currentMonthName() {
+      return new Date(
+        this.currentYear,
+        this.currentMonth
+      ).toLocaleString("default", { month: "long" });
     },
   },
 };
