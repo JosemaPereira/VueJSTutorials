@@ -3,6 +3,7 @@ import Heroes from './pages/Heroes';
 import Calendar from './pages/Calendar';
 import Home from './pages/Home';
 import Markdown from './pages/Markdown';
+import Slider from './pages/Slider';
 
 const routes = [
   {
@@ -20,6 +21,10 @@ const routes = [
   {
     path: '/markdown',
     component: Markdown,
+  },
+  {
+    path: '/slider',
+    component: Slider,
   },
 ];
 
