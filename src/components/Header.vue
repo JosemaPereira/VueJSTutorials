@@ -16,6 +16,7 @@ export default {
         { title: "Heroes", to: "/heroes" },
         { title: "Calendar", to: "/calendar" },
         { title: "Markdown", to: "/markdown" },
+        { title: "Slider Carousel", to: "/slider" },
       ],
     };
   },
