@@ -1,6 +1,6 @@
 <template>
   <section
-    @click="$emit('close-login-modal')"
+    @click="close"
     class="z-20 h-screen w-screen bg-gray-500 fixed top-0 opacity-50"
   ></section>
   <div class="absolute inset-0">
@@ -13,9 +13,8 @@
               <label>Email</label>
               <input
                 class="rounded shadow p-2 w-full"
-                placeholder="Enter email
-              or username"
-                v-model="form.email"
+                placeholder="Enter email or username"
+                v-model="email"
               />
             </div>
             <div class="my-4">
@@ -24,7 +23,7 @@
                 class="rounded shadow p-2 w-full"
                 type="password"
                 placeholder="Enter your password"
-                v-model="form.password"
+                v-model="password"
               />
             </div>
             <div class="my-4">
@@ -32,7 +31,8 @@
                 class="w-full rounded shadow-md bg-gradient-to-r from-red-800 to-pink-800 text-white p-2"
                 type="submit"
               >
-                Login
+                <span v-if="!isLoading">Login</span>
+                <span v-else>⌛</span>
               </button>
             </div>
           </form>
@@ -43,11 +43,33 @@
 </template>
 
 <script>
+import firebase from "../utilities/firebase";
 export default {
   data() {
-    return { form: { email: "", password: "" } };
+    return { email: "", password: "", isLoading: false };
   },
-  methods: { submit() {} },
+  methods: {
+    submit() {
+      this.isLoading = true;
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(this.email, this.password)
+        .then(() => {
+          this.password = "";
+          this.email = "";
+          this.close();
+        })
+        .catch((e) => {
+          console.error(e);
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    close() {
+      this.$emit("close-login-modal");
+    },
+  },
 };
 </script>
 

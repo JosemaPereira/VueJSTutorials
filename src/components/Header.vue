@@ -6,10 +6,12 @@
       <a>{{ item.title }}</a>
     </router-link>
     <button class="mx-2" @click="$emit('open-login-modal')">Login</button>
+    <button class="mx-2" @click="logOut">Logout</button>
   </nav>
 </template>
 
 <script>
+import firebase from "../utilities/firebase";
 export default {
   data() {
     return {
@@ -20,6 +22,19 @@ export default {
         { title: "Slider Carousel", to: "/slider" },
       ],
     };
+  },
+  methods: {
+    logOut() {
+      firebase
+        .auth()
+        .signOut()
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+    },
   },
 };
 </script>

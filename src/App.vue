@@ -9,12 +9,26 @@
 <script>
 import Header from "./components/Header";
 import LoginModal from "./components/LoginModal";
+import firebase from "./utilities/firebase";
 export default {
   components: { Header, LoginModal },
   data() {
     return {
       isLoginOpen: false,
+      isLoggedIn: false,
+      authUser: "",
     };
+  },
+  mounted() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.isLoggedIn = true;
+        this.authUser = user;
+      } else {
+        this.isLoggedIn = false;
+        this.authUser = "";
+      }
+    });
   },
 };
 </script>
