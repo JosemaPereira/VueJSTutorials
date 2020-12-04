@@ -9,7 +9,12 @@
       </li>
     </ul>
     <form class="mt-10" @submit.prevent="addHero">
-      <input class="border rounded" v-model="newHero" placeholder="Add Hero" />
+      <input
+        class="border rounded"
+        v-model="newHero"
+        placeholder="Add Hero"
+        ref="heroRef"
+      />
       <button
         type="submit"
         class="border rounded bg-gradient-to-r from-red-700 to bg-pink-500 text-white"
@@ -29,6 +34,9 @@
 <script>
 import _ from "underscore";
 export default {
+  mounted() {
+    this.$refs.heroRef.focus();
+  },
   data() {
     return {
       newHero: "",
