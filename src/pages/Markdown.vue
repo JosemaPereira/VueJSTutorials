@@ -7,6 +7,7 @@
           class="w-full h-full"
           :value="text"
           @input="update"
+          ref="markdownRef"
         ></textarea>
       </article>
       <article class="w-1/2 border bg-gray-100" v-html="markText"></article>
@@ -34,6 +35,9 @@ export default {
       const task = () => (this.text = e.target.value);
       this.debounce(task, 500);
     },
+  },
+  mounted() {
+    this.$refs.markdownRef.focus();
   },
 };
 </script>
