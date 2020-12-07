@@ -3,7 +3,9 @@
   <div class="w-full flex">
     <router-view></router-view>
   </div>
-  <LoginModal v-if="isLoginOpen" @close-login-modal="isLoginOpen = false" />
+  <teleport to="body">
+    <LoginModal v-if="isLoginOpen" @close-login-modal="isLoginOpen = false" />
+  </teleport>
 </template>
 
 <script>
