@@ -33,40 +33,46 @@
 
 <script>
 import _ from "underscore";
+import { computed, onMounted, ref } from "vue";
 export default {
-  mounted() {
-    this.$refs.heroRef.focus();
+  setup() {
+    const newHero = ref("");
+    const heroRef = ref("");
+    const heroes = ref([
+      { uuid: _.uniqueId(), name: "Batman" },
+      { uuid: _.uniqueId(), name: "Superman" },
+      { uuid: _.uniqueId(), name: "Wonder Woman" },
+    ]);
+
+    function remove(uuid) {
+      heroes.value = heroes.value.filter((hero) => hero.uuid !== uuid);
+    }
+    function addHero() {
+      if (newHero.value !== "") {
+        heroes.value.push({ uuid: _.uniqueId(), name: newHero.value });
+        newHero.value = "";
+      }
+    }
+
+    onMounted(() => {
+      heroRef.value.focus();
+    });
+    const herosCount = computed({ get: () => heroes.value.length });
+
+    return { heroes, newHero, remove, addHero, heroRef, herosCount };
   },
   data() {
     return {
-      newHero: "",
       fName: "Josema",
       lName: "Pereira",
-      heroes: [
-        { uuid: _.uniqueId(), name: "Batman" },
-        { uuid: _.uniqueId(), name: "Superman" },
-        { uuid: _.uniqueId(), name: "Wonder Woman" },
-      ],
     };
   },
   methods: {
-    addHero() {
-      if (this.newHero !== "") {
-        this.heroes.push({ uuid: _.uniqueId(), name: this.newHero });
-        this.newHero = "";
-      }
-    },
     setFullName() {
       this.fullName = "Tamara Sabido";
     },
-    remove(uuid) {
-      this.heroes = this.heroes.filter((hero) => hero.uuid !== uuid);
-    },
   },
   computed: {
-    herosCount() {
-      return this.heroes.length;
-    },
     fullName: {
       get() {
         return `${this.fName} ${this.lName}`;
