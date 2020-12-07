@@ -8,41 +8,13 @@
       <div class="z-30 m-auto bg-white p-2 rounded shadow x-1/3">
         <div class="p-2 border">
           <h1 class="text-2xl text-center">Login</h1>
-          <section class="my-5 text-center">
-            <button class="border px-2 rounded" @click="loginWithGoogle">
-              Login with google
-            </button>
-          </section>
+          <GoogleLogin @close-login-from-google="close" />
           <p class="my-3 text-center">Or</p>
-          <form class="p-2 my-2" @submit.prevent="submit">
-            <div class="my-4">
-              <label>Email</label>
-              <input
-                class="rounded shadow p-2 w-full"
-                placeholder="Enter email or username"
-                v-model="email"
-                ref="emailRef"
-              />
-            </div>
-            <div class="my-4">
-              <label>Password</label>
-              <input
-                class="rounded shadow p-2 w-full"
-                type="password"
-                placeholder="Enter your password"
-                v-model="password"
-              />
-            </div>
-            <div class="my-4">
-              <button
-                class="w-full rounded shadow-md bg-gradient-to-r from-red-800 to-pink-800 text-white p-2"
-                type="submit"
-              >
-                <span v-if="!isLoading">Login</span>
-                <span v-else>⌛</span>
-              </button>
-            </div>
-          </form>
+          <EmailLogin
+            :isLoading="isLoading"
+            @close-login-from-email="close"
+            @update-is-loading-state="updateIsLogin"
+          />
         </div>
       </div>
     </div>
@@ -50,49 +22,20 @@
 </template>
 
 <script>
-import firebase from "../utilities/firebase";
+import GoogleLogin from "../components/Login/GoogleLogin";
+import EmailLogin from "../components/Login/EmailLogin";
+
 export default {
-  mounted() {
-    this.$refs.emailRef.focus();
-  },
+  components: { GoogleLogin, EmailLogin },
   data() {
-    return { email: "", password: "", isLoading: false };
+    return { isLoading: false };
   },
   methods: {
-    submit() {
-      this.isLoading = true;
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(this.email, this.password)
-        .then(() => {
-          this.password = "";
-          this.email = "";
-          this.close();
-        })
-        .catch((e) => {
-          console.error(e);
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
     close() {
       this.$emit("close-login-modal");
     },
-    loginWithGoogle() {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      firebase
-        .auth()
-        .signInWithPopup(provider)
-        .then((result) => {
-          const token = result.credential.accessToken;
-          const user = result.user;
-          console.log(token, user);
-          this.close();
-        })
-        .catch((err) => {
-          console.error(err.code, err.message);
-        });
+    updateIsLogin(state) {
+      this.isLoading = state;
     },
   },
 };
