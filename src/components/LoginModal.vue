@@ -8,6 +8,12 @@
       <div class="z-30 m-auto bg-white p-2 rounded shadow x-1/3">
         <div class="p-2 border">
           <h1 class="text-2xl text-center">Login</h1>
+          <section class="my-5 text-center">
+            <button class="border px-2 rounded" @click="loginWithGoogle">
+              Login with google
+            </button>
+          </section>
+          <p class="my-3 text-center">Or</p>
           <form class="p-2 my-2" @submit.prevent="submit">
             <div class="my-4">
               <label>Email</label>
@@ -68,6 +74,21 @@ export default {
     },
     close() {
       this.$emit("close-login-modal");
+    },
+    loginWithGoogle() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      firebase
+        .auth()
+        .signInWithPopup(provider)
+        .then((result) => {
+          const token = result.credential.accessToken;
+          const user = result.user;
+          console.log(token, user);
+          this.close();
+        })
+        .catch((err) => {
+          console.error(err.code, err.message);
+        });
     },
   },
 };
