@@ -21,6 +21,7 @@
                 class="rounded shadow p-2 w-full"
                 placeholder="Enter email or username"
                 v-model="email"
+                ref="emailRef"
               />
             </div>
             <div class="my-4">
@@ -51,6 +52,9 @@
 <script>
 import firebase from "../utilities/firebase";
 export default {
+  mounted() {
+    this.$refs.emailRef.focus();
+  },
   data() {
     return { email: "", password: "", isLoading: false };
   },
