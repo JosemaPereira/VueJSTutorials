@@ -8,6 +8,8 @@
       <div class="z-30 m-auto bg-white p-2 rounded shadow x-1/3">
         <div class="p-2 border">
           <slot>Default Content</slot>
+          <h1 class="text-2xl"><slot name="title"></slot></h1>
+          <h2 class="text-xl"><slot name="body"></slot></h2>
         </div>
       </div>
     </div>
