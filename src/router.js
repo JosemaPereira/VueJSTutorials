@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Markdown from './pages/Markdown';
 import Slider from './pages/Slider';
 import Calculator from './pages/Calculator';
+import ReusableModal from './pages/ReusableModal';
 
 const routes = [
   {
@@ -30,6 +31,10 @@ const routes = [
   {
     path: '/calculator',
     component: Calculator,
+  },
+  {
+    path: '/modal',
+    component: ReusableModal,
   },
 ];
 
