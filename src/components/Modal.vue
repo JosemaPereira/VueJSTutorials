@@ -6,7 +6,9 @@
   <div class="absolute inset-0">
     <div class="flex h-full">
       <div class="z-30 m-auto bg-white p-2 rounded shadow x-1/3">
-        <div class="p-2 border"><slot></slot></div>
+        <div class="p-2 border">
+          <slot>Default Content</slot>
+        </div>
       </div>
     </div>
   </div>

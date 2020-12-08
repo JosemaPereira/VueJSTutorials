@@ -6,11 +6,14 @@
         <h1 class="text-red-500">Red Modal</h1>
       </Modal>
       <button @click="isRedModalOpen = true">Open Red Modal</button>
-      
+
       <Modal v-if="isBlueModalOpen" @close="isBlueModalOpen = false">
         <h1 class="text-blue-500">Blue Modal</h1>
       </Modal>
       <button @click="isBlueModalOpen = true">Open Blue Modal</button>
+
+      <Modal v-if="fallbackModal" @close="fallbackModal = false"> </Modal>
+      <button @click="fallbackModal = true">Open fallback Modal</button>
     </div>
   </section>
 </template>
@@ -23,7 +26,8 @@ export default {
   setup() {
     const isRedModalOpen = ref(false);
     const isBlueModalOpen = ref(false);
-    return { isRedModalOpen, isBlueModalOpen };
+    const fallbackModal = ref(false);
+    return { isRedModalOpen, isBlueModalOpen, fallbackModal };
   },
 };
 </script>
