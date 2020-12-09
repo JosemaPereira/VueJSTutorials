@@ -16,10 +16,7 @@ export default {
       firebase
         .auth()
         .signInWithPopup(provider)
-        .then((result) => {
-          const token = result.credential.accessToken;
-          const user = result.user;
-          console.log(token, user);
+        .then(() => {
           this.$emit("close-login-from-google");
         })
         .catch((err) => {

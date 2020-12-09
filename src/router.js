@@ -7,6 +7,7 @@ import Slider from './pages/Slider';
 import Calculator from './pages/Calculator';
 import ReusableModal from './pages/ReusableModal';
 import Chat from './pages/Chat';
+import store from './store';
 
 const routes = [
   {
@@ -40,9 +41,20 @@ const routes = [
   {
     path: '/chat',
     component: Chat,
+    meta: { middleware: 'auth' },
   },
 ];
 
 const router = createRouter({ history: createWebHistory(), routes });
 
+router.beforeEach((to, _, next) => {
+  if (to.meta.middleware) {
+    const middleware = require(`./middleware/${to.meta.middleware}`);
+    if (middleware) {
+      middleware.default(next, store);
+    }
+  } else {
+    next();
+  }
+});
 export default router;

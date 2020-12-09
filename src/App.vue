@@ -1,10 +1,10 @@
 <template>
-  <Header @open-login-modal="isLoginOpen = true" />
+  <Header/>
   <div class="w-full flex">
     <router-view></router-view>
   </div>
   <teleport to="body">
-    <LoginModal v-if="isLoginOpen" @close-login-modal="isLoginOpen = false" />
+    <LoginModal />
   </teleport>
 </template>
 
@@ -14,13 +14,8 @@ import LoginModal from "./components/LoginModal";
 import firebase from "./utilities/firebase";
 export default {
   components: { Header, LoginModal },
-  data() {
-    return {
-      isLoginOpen: false
-    }
-  },
-  mounted() {
-    firebase.auth().onAuthStateChanged((user) => {
+  beforeMount() {
+    firebase.auth().onAuthStateChanged(async (user) => {
       if (user) {
         this.$store.commit('setIsLoggedIn', true);
         this.$store.commit('setAuthUser', user);
