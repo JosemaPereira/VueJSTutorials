@@ -2,7 +2,7 @@ import { createStore } from 'vuex';
 
 const store = createStore({
   state() {
-    return { isLoggedIn: false, authUser: {} };
+    return { isLoggedIn: false, authUser: {}, isLoginOpen: false };
   },
   mutations: {
     setIsLoggedIn(state, payload) {
@@ -10,6 +10,9 @@ const store = createStore({
     },
     setAuthUser(state, payload) {
       state.authUser = payload;
+    },
+    setLoginModal(state, payload) {
+      state.isLoginOpen = payload;
     },
   },
 });
