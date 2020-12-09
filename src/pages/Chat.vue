@@ -3,12 +3,12 @@
     <div class="m-auto">
       <h1 class="text-center text-2xl">Real Time Chat</h1>
       <div class="border rounded-lg">
-        <div class="h-64 p-2">
+        <div class="h-64 p-2 overflow-y-auto">
           <div
             v-for="chat in state.chats"
             :key="chat.message"
             class="w-full"
-            :class="chat.userId === state.userId ? 'text-right' : 'text-left'"
+            :class="chat.userId === userId ? 'text-right' : 'text-left'"
           >
             {{ chat.message }}
           </div>
@@ -19,6 +19,7 @@
             placeholder="Start typing ..."
             class="p-1 border rounded shadow-shadow"
             @keydown.enter="sendMessage"
+            ref="chatInputRef"
           />
         </div>
       </div>
@@ -27,30 +28,34 @@
 </template>
 
 <script>
-import { onMounted, reactive } from "vue";
-import firebase, { chatRef } from "../utilities/firebase";
+import { computed, onMounted, reactive, ref } from "vue";
+import { chatRef } from "../utilities/firebase";
+import { useStore } from 'vuex';
 
 export default {
   setup() {
     const state = reactive({
       chats: [],
       message: "",
-      userId: "",
     });
+    const chatInputRef = ref("");
+
+    const store = useStore();
+    const userId = computed(()=> store.state.authUser.uid);
     onMounted(async () => {
       chatRef.on("child_added", (snapshot) => {
-        state.userId = firebase.auth().currentUser.uid;
         state.chats.push({ key: snapshot.key, ...snapshot.val() });
       });
+      chatInputRef.value.focus();
     });
 
     const sendMessage = () => {
       const newChat = chatRef.push();
-      newChat.set({ userId: state.userId, message: state.message });
+      newChat.set({ userId: userId.value, message: state.message });
       state.message = "";
     };
 
-    return { state, sendMessage };
+    return { state, sendMessage, userId, chatInputRef };
   },
 };
 </script>
