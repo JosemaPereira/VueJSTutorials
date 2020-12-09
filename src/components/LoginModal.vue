@@ -25,12 +25,12 @@
 <script>
 import GoogleLogin from "../components/Login/GoogleLogin";
 import EmailLogin from "../components/Login/EmailLogin";
-
+import _ from 'underscore';
 export default {
   components: { GoogleLogin, EmailLogin },
   computed:{
     isLoginOpen(){
-      return this.$store.state.isLoginOpen && !this.$store.state.authUser
+      return this.$store.state.isLoginOpen && _.isEmpty(this.$store.state.authUser)
       }
   },
   data() {
