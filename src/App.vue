@@ -19,7 +19,7 @@ export default {
       isLoginOpen: false
     }
   },
-  mounted() {
+  beforeMount() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.$store.commit('setIsLoggedIn', true);
