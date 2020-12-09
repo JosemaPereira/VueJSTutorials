@@ -1,5 +1,5 @@
 <template>
-  <Header :isLoggedIn="isLoggedIn" @open-login-modal="isLoginOpen = true" />
+  <Header @open-login-modal="isLoginOpen = true" />
   <div class="w-full flex">
     <router-view></router-view>
   </div>
@@ -16,19 +16,17 @@ export default {
   components: { Header, LoginModal },
   data() {
     return {
-      isLoginOpen: false,
-      isLoggedIn: false,
-      authUser: "",
-    };
+      isLoginOpen: false
+    }
   },
   mounted() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.isLoggedIn = true;
-        this.authUser = user;
+        this.$store.commit('setIsLoggedIn', true);
+        this.$store.commit('setAuthUser', user);
       } else {
-        this.isLoggedIn = false;
-        this.authUser = "";
+        this.$store.commit('setIsLoggedIn', false);
+        this.$store.commit('setAuthUser', {});
       }
     });
   },
